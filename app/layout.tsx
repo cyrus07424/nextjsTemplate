@@ -25,19 +25,24 @@ export default function RootLayout({
 }>) {
   const gtmContainerId = process.env.NEXT_PUBLIC_GTM_CONTAINER_ID;
   const validGtmContainerId =
-    gtmContainerId && /^GTM-[A-Z0-9]+$/.test(gtmContainerId)
+    gtmContainerId && /^GTM-[A-Z0-9]{7,8}$/.test(gtmContainerId)
       ? gtmContainerId
       : null;
 
   return (
     <html lang="ja">
-      <head>
-        {validGtmContainerId ? (
-          <Script id="gtm-loader" strategy="beforeInteractive">
-            {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',${JSON.stringify(validGtmContainerId)});`}
+      {validGtmContainerId ? (
+        <>
+          <Script id="gtm-data-layer" strategy="beforeInteractive">
+            {`window.dataLayer = window.dataLayer || [];window.dataLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'});`}
           </Script>
-        ) : null}
-      </head>
+          <Script
+            id="gtm-loader"
+            src={`https://www.googletagmanager.com/gtm.js?id=${validGtmContainerId}`}
+            strategy="beforeInteractive"
+          />
+        </>
+      ) : null}
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
