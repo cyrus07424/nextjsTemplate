@@ -24,21 +24,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const gtmContainerId = process.env.NEXT_PUBLIC_GTM_CONTAINER_ID;
+  const validGtmContainerId =
+    gtmContainerId && /^GTM-[A-Z0-9]+$/i.test(gtmContainerId)
+      ? gtmContainerId
+      : null;
 
   return (
     <html lang="ja">
-      {gtmContainerId ? (
+      {validGtmContainerId ? (
         <Script id="gtm-loader" strategy="afterInteractive">
-          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtmContainerId}');`}
+          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${validGtmContainerId}');`}
         </Script>
       ) : null}
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {gtmContainerId ? (
+        {validGtmContainerId ? (
           <noscript>
             <iframe
-              src={`https://www.googletagmanager.com/ns.html?id=${gtmContainerId}`}
+              src={`https://www.googletagmanager.com/ns.html?id=${validGtmContainerId}`}
               height="0"
               width="0"
               style={{ display: "none", visibility: "hidden" }}

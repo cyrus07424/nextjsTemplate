@@ -18,7 +18,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Environment Variables
 
-Set `NEXT_PUBLIC_GTM_CONTAINER_ID` to embed Google Tag Manager during build.
+Set `NEXT_PUBLIC_GTM_CONTAINER_ID` (format: `GTM-XXXXXXX`) to embed Google Tag Manager during build.
 
 ```bash
 NEXT_PUBLIC_GTM_CONTAINER_ID=GTM-XXXXXXX
